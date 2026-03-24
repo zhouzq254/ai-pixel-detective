@@ -14,15 +14,20 @@ export class SimpleInvestigationScene extends Phaser.Scene {
     private progressText!: Phaser.GameObjects.Text;
     
     constructor() {
-        super('SimpleInvestigationScene');
+        super({ key: 'SimpleInvestigationScene' });
+    }
+    
+    init(): void {
+        console.log('🚀 初始化调查场景');
     }
     
     preload(): void {
-        console.log('📦 加载简单调查场景');
+        console.log('📦 调查场景预加载');
+        // 简单场景不需要额外资源
     }
     
     create(): void {
-        console.log('🎮 创建简单调查场景');
+        console.log('🎮 创建调查场景 - 开始渲染');
         
         // 创建背景
         this.createBackground();
@@ -35,12 +40,16 @@ export class SimpleInvestigationScene extends Phaser.Scene {
         
         // 显示案件信息
         this.showCaseInfo();
+        
+        console.log('✅ 调查场景创建完成');
     }
     
     private createBackground(): void {
+        console.log('🎨 创建调查场景背景');
+        
         // 渐变背景
         const graphics = this.add.graphics();
-        graphics.fillGradientStyle(0x1a1a2e, 0x1a1a2e, 0x16213e, 0x16213e, 1);
+        graphics.fillGradientStyle(0x0a0a1a, 0x0a0a1a, 0x1a1a2e, 0x1a1a2e, 1);
         graphics.fillRect(0, 0, 800, 600);
         
         // 网格线
@@ -54,9 +63,15 @@ export class SimpleInvestigationScene extends Phaser.Scene {
             graphics.lineTo(800, y);
         }
         graphics.strokePath();
+        
+        // 场景标题背景
+        const titleBg = this.add.rectangle(400, 50, 500, 60, 0x000000, 0.7);
+        titleBg.setStrokeStyle(2, 0x4a4aff);
     }
     
     private createUI(): void {
+        console.log('📊 创建调查场景UI');
+        
         // 顶部信息栏
         const topBar = this.add.rectangle(400, 40, 700, 60, 0x000000, 0.7);
         topBar.setStrokeStyle(2, 0x4a4aff);
@@ -98,6 +113,8 @@ export class SimpleInvestigationScene extends Phaser.Scene {
     }
     
     private createInteractiveElements(): void {
+        console.log('🖱️ 创建交互元素');
+        
         // 创建线索（5个）
         const cluePositions = [
             { x: 200, y: 200 },
@@ -183,6 +200,8 @@ export class SimpleInvestigationScene extends Phaser.Scene {
     }
     
     private createControlButtons(): void {
+        console.log('🎛️ 创建控制按钮');
+        
         // 返回按钮
         const backButton = this.add.rectangle(100, 550, 120, 40, 0x4a4aff);
         backButton.setInteractive({ useHandCursor: true });
@@ -193,6 +212,7 @@ export class SimpleInvestigationScene extends Phaser.Scene {
         }).setOrigin(0.5);
         
         backButton.on('pointerdown', () => {
+            console.log('🔙 返回主菜单');
             this.scene.start('MainMenuScene');
         });
         
@@ -206,6 +226,7 @@ export class SimpleInvestigationScene extends Phaser.Scene {
         }).setOrigin(0.5);
         
         hintButton.on('pointerdown', () => {
+            console.log('💡 获取提示');
             this.showHint();
         });
         
@@ -219,11 +240,14 @@ export class SimpleInvestigationScene extends Phaser.Scene {
         }).setOrigin(0.5);
         
         deduceButton.on('pointerdown', () => {
+            console.log('🧠 开始推理');
             this.startDeduction();
         });
     }
     
     private showCaseInfo(): void {
+        console.log('📋 显示案件信息');
+        
         // 案件描述
         const infoPanel = this.add.rectangle(400, 150, 500, 80, 0x000000, 0.8);
         infoPanel.setStrokeStyle(2, 0x4a4aff);
@@ -386,6 +410,8 @@ export class SimpleInvestigationScene extends Phaser.Scene {
     }
     
     private showSuccessScreen(): void {
+        console.log('🎉 显示成功界面');
+        
         // 清空场景
         this.children.removeAll();
         
@@ -422,6 +448,7 @@ export class SimpleInvestigationScene extends Phaser.Scene {
         }).setOrigin(0.5);
         
         returnButton.on('pointerdown', () => {
+            console.log('🔙 返回主菜单（成功界面）');
             this.scene.start('MainMenuScene');
         });
     }
