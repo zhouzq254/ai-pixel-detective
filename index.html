@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI像素侦探社 - 全球首个AI生成的侦探推理游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            border: 3px solid #4a4aff;
+            box-shadow: 0 0 20px rgba(74, 74, 255, 0.3);
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            color: #4affaa;
+            text-shadow: 0 0 10px rgba(74, 255, 170, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            margin-bottom: 20px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            color: #8888cc;
+            font-style: italic;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            margin: 0 auto 30px;
+            border: 4px solid #4a4aff;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #0a0a1a;
+            box-shadow: 0 0 30px rgba(74, 74, 255, 0.4);
+        }
+        
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #4a4aff;
+            border-top: 5px solid #4affaa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            color: #4affaa;
+            margin-bottom: 10px;
+        }
+        
+        .loading-subtext {
+            font-size: 0.9rem;
+            color: #8888cc;
+        }
+        
+        .info-panel {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #4affaa;
+        }
+        
+        .info-title {
+            color: #4affaa;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .feature {
+            background: rgba(74, 74, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4affaa;
+        }
+        
+        .feature h3 {
+            color: #4affaa;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .feature p {
+            color: #a0a0ff;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, #4a4aff 0%, #4affaa 100%);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 255, 170, 0.4);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #4a4aff;
+            color: #8888cc;
+            font-size: 0.9rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tech-item {
+            background: rgba(74, 74, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .game-container {
+                height: 400px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .game-container {
+                height: 300px;
+            }
+            
+            .control-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 像素风装饰 */
+        .pixel-border {
+            position: relative;
+        }
+        
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #4a4aff, #4affaa, #ff4af0, #4a4aff);
+            z-index: -1;
+            border-radius: 20px;
+            animation: borderGlow 3s linear infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        /* 打字机效果 */
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #4affaa;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #4affaa; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header pixel-border">
+            <h1 class="title">🕵️‍♂️ AI像素侦探社</h1>
+            <p class="subtitle">全球首个AI生成的侦探推理游戏</p>
+            <p class="tagline typewriter">每个案件都不同，每个嫌疑人都会思考...</p>
+        </div>
+        
+        <div class="game-container">
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">正在启动侦探系统...</div>
+                <div class="loading-subtext">首次加载可能需要几秒钟</div>
+            </div>
+            <canvas id="game-canvas"></canvas>
+        </div>
+        
+        <div class="info-panel">
+            <h2 class="info-title">✨ 游戏特色</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>🤖 AI生成案件</h3>
+                    <p>每次游戏案件都不同，由DeepSeek AI动态生成剧情、嫌疑人和线索</p>
+                </div>
+                <div class="feature">
+                    <h3>🎭 智能嫌疑人</h3>
+                    <p>每个嫌疑人都有独特性格，会撒谎、隐瞒、合作，对话由AI实时生成</p>
+                </div>
+                <div class="feature">
+                    <h3>🕹️ 复古像素风</h3>
+                    <p>90年代经典像素风格，怀旧情怀与现代AI技术的完美结合</p>
+                </div>
+                <div class="feature">
+                    <h3>🔍 真实推理体验</h3>
+                    <p>调查现场、收集证据、分析线索、指认凶手，体验完整侦探流程</p>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="startNewCase()">🆕 开始新案件</button>
+                <button class="control-btn" onclick="saveGame()">💾 保存进度</button>
+                <button class="control-btn" onclick="loadGame()">📂 读取存档</button>
+                <button class="control-btn" onclick="toggleSound()">🔊 音效开关</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🎮 使用说明：点击场景调查，与嫌疑人对话，在侦探板上推理，找出真凶！</p>
+            <div class="tech-stack">
+                <span class="tech-item">Phaser.js 3.60</span>
+                <span class="tech-item">TypeScript</span>
+                <span class="tech-item">DeepSeek AI</span>
+                <span class="tech-item">像素美术</span>
+                <span class="tech-item">Cloudflare Pages</span>
+            </div>
+            <p style="margin-top: 15px; color: #4affaa;">开发中... 敬请期待完整版本！</p>
+        </div>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+    <script>
+        // 全局游戏控制函数
+        function startNewCase() {
+            console.log('开始新案件');
+            if (window.gameInstance) {
+                window.gameInstance.startNewCase();
+            }
+        }
+        
+        function saveGame() {
+            console.log('保存游戏');
+            if (window.gameInstance) {
+                window.gameInstance.saveGame();
+                showNotification('游戏进度已保存！', 'success');
+            }
+        }
+        
+        function loadGame() {
+            console.log('读取存档');
+            if (window.gameInstance) {
+                window.gameInstance.loadGame();
+                showNotification('存档已加载！', 'info');
+            }
+        }
+        
+        function toggleSound() {
+            console.log('切换音效');
+            if (window.gameInstance) {
+                const enabled = window.gameInstance.toggleSound();
+                showNotification(enabled ? '音效已开启' : '音效已关闭', 'info');
+            }
+        }
+        
+        function showNotification(message, type = 'info') {
+            // 简单的通知实现
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4affaa' : type === 'error' ? '#ff5555' : '#4a4aff'};
+                color: ${type === 'success' ? '#000' : '#fff'};
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
