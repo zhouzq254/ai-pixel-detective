@@ -1,0 +1,35 @@
+{
+  "app": {
+    "title": "Agencia de Detectives Global",
+    "subtitle": "Casos de Misterio Generados por IA",
+    "start": "Comenzar Nuevo Caso",
+    "continue": "Continuar Caso",
+    "settings": "Configuración",
+    "language": "Idioma"
+  },
+  "case": {
+    "title": "Caso {{number}}: {{name}}",
+    "clues": "Pistas",
+    "suspects": "Sospechosos",
+    "evidence": "Evidencia",
+    "deduction": "Deducción",
+    "solve": "Resolver Caso",
+    "progress": "Progreso: {{percent}}%"
+  },
+  "ui": {
+    "collect": "Recolectar",
+    "question": "Interrogar",
+    "analyze": "Analizar",
+    "back": "Atrás",
+    "hint": "Pista",
+    "next": "Siguiente",
+    "close": "Cerrar"
+  },
+  "themes": {
+    "jewelry_heist": "Robo de Joyería",
+    "art_theft": "Robo de Arte en Museo",
+    "corporate_espionage": "Espionaje Corporativo",
+    "cold_case": "Caso Frío Reabierto",
+    "cyber_crime": "Investigación de Cibercrimen"
+  }
+}

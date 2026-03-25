@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Global Detective Agency",
+    "subtitle": "AI-Generated Mystery Cases",
+    "start": "Start New Case",
+    "continue": "Continue Case",
+    "settings": "Settings",
+    "language": "Language"
+  },
+  "case": {
+    "title": "Case {{number}}: {{name}}",
+    "clues": "Clues",
+    "suspects": "Suspects",
+    "evidence": "Evidence",
+    "deduction": "Deduction",
+    "solve": "Solve Case",
+    "progress": "Progress: {{percent}}%"
+  },
+  "ui": {
+    "collect": "Collect",
+    "question": "Question",
+    "analyze": "Analyze",
+    "back": "Back",
+    "hint": "Hint",
+    "next": "Next",
+    "close": "Close"
+  },
+  "themes": {
+    "jewelry_heist": "Jewelry Store Heist",
+    "art_theft": "Museum Art Theft", 
+    "corporate_espionage": "Corporate Espionage",
+    "cold_case": "Cold Case Reopened",
+    "cyber_crime": "Cyber Crime Investigation"
+  },
+  "monetization": {
+    "hint_pack": "Hint Pack ({{count}} hints)",
+    "premium_cases": "Premium Cases",
+    "ad_free": "Remove Ads",
+    "subscribe": "Subscribe for Daily Cases"
+  }
+}
