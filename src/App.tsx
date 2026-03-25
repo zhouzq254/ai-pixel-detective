@@ -139,6 +139,12 @@ function App() {
             🇪🇸 Español
           </button>
           <button 
+            className={language === 'zh' ? 'active' : ''}
+            onClick={() => changeLanguage('zh')}
+          >
+            🇨🇳 中文
+          </button>
+          <button 
             className={language === 'fr' ? 'active' : ''}
             onClick={() => changeLanguage('fr')}
           >

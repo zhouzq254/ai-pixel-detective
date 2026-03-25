@@ -1,0 +1,35 @@
+{
+  "app": {
+    "title": "Agence de Détectives Globale",
+    "subtitle": "Affaires Mystérieuses Générées par IA",
+    "start": "Nouvelle Affaire",
+    "continue": "Continuer l'Affaire",
+    "settings": "Paramètres",
+    "language": "Langue"
+  },
+  "case": {
+    "title": "Affaire {{number}} : {{name}}",
+    "clues": "Indices",
+    "suspects": "Suspects",
+    "evidence": "Preuves",
+    "deduction": "Déduction",
+    "solve": "Résoudre l'Affaire",
+    "progress": "Progression : {{percent}}%"
+  },
+  "ui": {
+    "collect": "Collecter",
+    "question": "Interroger",
+    "analyze": "Analyser",
+    "back": "Retour",
+    "hint": "Indice",
+    "next": "Suivant",
+    "close": "Fermer"
+  },
+  "themes": {
+    "jewelry_heist": "Vol de Bijouterie",
+    "art_theft": "Vol d'Œuvre d'Art au Musée",
+    "corporate_espionage": "Espionnage Corporatif",
+    "cold_case": "Affaire Classée Réouverte",
+    "cyber_crime": "Enquête sur la Cybercriminalité"
+  }
+}

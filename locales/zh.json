@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "全球侦探事务所",
+    "subtitle": "AI生成神秘案件",
+    "start": "开始新案件",
+    "continue": "继续案件",
+    "settings": "设置",
+    "language": "语言"
+  },
+  "case": {
+    "title": "案件{{number}}：{{name}}",
+    "clues": "线索",
+    "suspects": "嫌疑人",
+    "evidence": "证据",
+    "deduction": "推理",
+    "solve": "破解案件",
+    "progress": "进度：{{percent}}%"
+  },
+  "ui": {
+    "collect": "收集",
+    "question": "询问",
+    "analyze": "分析",
+    "back": "返回",
+    "hint": "提示",
+    "next": "下一步",
+    "close": "关闭"
+  },
+  "themes": {
+    "jewelry_heist": "珠宝店抢劫案",
+    "art_theft": "博物馆艺术品盗窃",
+    "corporate_espionage": "企业间谍活动",
+    "cold_case": "冷案重启",
+    "cyber_crime": "网络犯罪调查"
+  },
+  "monetization": {
+    "hint_pack": "提示包（{{count}}个提示）",
+    "premium_cases": "高级案件",
+    "ad_free": "移除广告",
+    "subscribe": "订阅每日案件"
+  }
+}
