@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainMenu from './components/MainMenu';
 import InvestigationScene from './components/InvestigationScene';
+import Tutorial from './components/Tutorial';
 import './styles/App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [currentScene, setCurrentScene] = useState('mainMenu');
   const [language, setLanguage] = useState('en');
   const [caseData, setCaseData] = useState(null);
+  const [showTutorial, setShowTutorial] = useState(true); // 首次显示教程
 
   // 初始化语言
   useEffect(() => {
@@ -119,68 +121,107 @@ function App() {
     i18n.changeLanguage(lang);
   };
 
+  // 开始游戏（跳过教程）
+  const startGame = () => {
+    setShowTutorial(false);
+  };
+
+  // 显示教程
+  const showTutorialAgain = () => {
+    setShowTutorial(true);
+  };
+
   return (
     <div className="app">
-      <header className="app-header">
-        <h1>{t('app.title')}</h1>
-        <p className="subtitle">{t('app.subtitle')}</p>
-        
-        <div className="language-selector">
-          <button 
-            className={language === 'en' ? 'active' : ''}
-            onClick={() => changeLanguage('en')}
-          >
-            🇺🇸 English
-          </button>
-          <button 
-            className={language === 'es' ? 'active' : ''}
-            onClick={() => changeLanguage('es')}
-          >
-            🇪🇸 Español
-          </button>
-          <button 
-            className={language === 'zh' ? 'active' : ''}
-            onClick={() => changeLanguage('zh')}
-          >
-            🇨🇳 中文
-          </button>
-          <button 
-            className={language === 'fr' ? 'active' : ''}
-            onClick={() => changeLanguage('fr')}
-          >
-            🇫🇷 Français
-          </button>
-        </div>
-      </header>
+      {showTutorial ? (
+        <Tutorial 
+          onClose={startGame}
+          onStartGame={() => {
+            startGame();
+            generateNewCase();
+          }}
+        />
+      ) : (
+        <>
+          <header className="app-header">
+            <h1>{t('app.title')}</h1>
+            <p className="subtitle">{t('app.subtitle')}</p>
+            
+            <div className="language-selector">
+              <button 
+                className={language === 'en' ? 'active' : ''}
+                onClick={() => changeLanguage('en')}
+              >
+                🇺🇸 English
+              </button>
+              <button 
+                className={language === 'es' ? 'active' : ''}
+                onClick={() => changeLanguage('es')}
+              >
+                🇪🇸 Español
+              </button>
+              <button 
+                className={language === 'zh' ? 'active' : ''}
+                onClick={() => changeLanguage('zh')}
+              >
+                🇨🇳 中文
+              </button>
+              <button 
+                className={language === 'fr' ? 'active' : ''}
+                onClick={() => changeLanguage('fr')}
+              >
+                🇫🇷 Français
+              </button>
+            </div>
 
-      <main className="app-main">
-        {currentScene === 'mainMenu' ? (
-          <MainMenu 
-            onStartNewCase={generateNewCase}
-            onContinueCase={() => {/* TODO: Load saved game */}}
-            onSettings={() => {/* TODO: Settings modal */}}
-          />
-        ) : (
-          <InvestigationScene 
-            caseData={caseData}
-            onCollectClue={collectClue}
-            onQuestionSuspect={questionSuspect}
-            onReturnToMenu={returnToMenu}
-            onSolveCase={() => {
-              // TODO: Solve case logic
-              alert('Case solved! The culprit was Alex Johnson!');
-              returnToMenu();
-            }}
-          />
-        )}
-      </main>
+            <button 
+              className="tutorial-button"
+              onClick={showTutorialAgain}
+              style={{
+                marginTop: '15px',
+                background: '#4a4aff',
+                color: 'white',
+                border: 'none',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontSize: '0.9rem'
+              }}
+            >
+              📚 {t('app.tutorial', '查看教程')}
+            </button>
+          </header>
 
-      <footer className="app-footer">
-        <p>© 2026 Global Detective Agency. All rights reserved.</p>
-        <div className="monetization-notice">
-          <p>Free to play • In-app purchases available • No ads for subscribers</p>
-        </div>
-      </footer>
+          <main className="app-main">
+            {currentScene === 'mainMenu' ? (
+              <MainMenu 
+                onStartNewCase={generateNewCase}
+                onContinueCase={() => {/* TODO: Load saved game */}}
+                onSettings={() => {/* TODO: Settings modal */}}
+              />
+            ) : (
+              <InvestigationScene 
+                caseData={caseData}
+                onCollectClue={collectClue}
+                onQuestionSuspect={questionSuspect}
+                onReturnToMenu={returnToMenu}
+                onSolveCase={() => {
+                  // TODO: Solve case logic
+                  alert('Case solved! The culprit was Alex Johnson!');
+                  returnToMenu();
+                }}
+              />
+            )}
+          </main>
+
+          <footer className="app-footer">
+            <p>© 2026 Global Detective Agency. All rights reserved.</p>
+            <div className="monetization-notice">
+              <p>Free to play • In-app purchases available • No ads for subscribers</p>
+            </div>
+          </footer>
+        </>
+      )}
     </div>
   );
 }
